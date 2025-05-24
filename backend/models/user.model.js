@@ -4,9 +4,15 @@ const userSchema = new mongoose.Schema({
     fullName: {
         type: String,
         required: true,
+        validate: {
+            validator: function (v) {
+                return typeof v === 'string' && isNaN(v);
+            },
+            message: 'must be a string and not a number'
+        }
     },
     username: {
-        type: String, 
+        type: String,
         required: true,
         unique: true,
     },
