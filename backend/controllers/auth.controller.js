@@ -32,15 +32,15 @@ export const signup = async (req, res) => {
             profilePic: profilePic,
         });
 
-        
+
         await newUser.save();
 
         generateTokenAndSetCookie(newUser._id, res);
 
         const { password: _, __v, ...userData } = newUser.toObject();
-        
+
         res.status(201).json(userData);
-        
+
     } catch (error) {
         console.log("Error in signup:", error);
 
@@ -54,10 +54,42 @@ export const signup = async (req, res) => {
     }
 }
 
-export const login = (req, res) => {
-    res.send("Login page");
+export const login = async (req, res) => {
+    try {
+        const { username, password } = req.body;
+        if (!username || !password) {
+            return res.status(400).json({ success: false, message: "Username and password are required" });
+        }
+
+        const user = await User.findOne({ username });
+        const isPasswordCorrect = await bcrypt.compare(password, user?.password || '');
+
+        if (!user || !isPasswordCorrect) {
+            return res.status(401).json({ success: false, message: "Username or password is incorrect" });
+        }
+
+        generateTokenAndSetCookie(user._id, res);
+        const { password: _, __v, ...userData } = user.toObject();
+
+        return res.status(200).json({ success: true, user: userData });
+
+    } catch (error) {
+        console.log("Error in login:", error);
+        return res.status(500).json({ success: false, message: "Internal server error" });
+    }
 }
 
 export const logout = (req, res) => {
-    res.send("Logout page");
+    try {
+        res.clearCookie("jwt", {
+            httpOnly: true,
+            sameSite: "strict",
+            secure: process.env.NODE_ENV === 'production', 
+        });
+        return res.status(200).json({ success: true, message: "Logged out successfully" });
+
+    } catch (error) {
+        console.log("Error in logout:", error);
+        return res.status(500).json({ success: false, message: "Internal server error" });
+    }
 }
