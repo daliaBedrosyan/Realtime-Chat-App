@@ -1,5 +1,6 @@
 import { User } from "../models/user.model.js";
 import bcrypt from 'bcryptjs';
+import { generateTokenAndSetCookie } from "../utils/generateToken.js";
 
 export const signup = async (req, res) => {
     const { fullName, username, password, confirmPassword, gender } = req.body;
@@ -30,12 +31,16 @@ export const signup = async (req, res) => {
             gender,
             profilePic: profilePic,
         });
+
+        
         await newUser.save();
 
+        generateTokenAndSetCookie(newUser._id, res);
+
         const { password: _, __v, ...userData } = newUser.toObject();
-
+        
         res.status(201).json(userData);
-
+        
     } catch (error) {
         console.log("Error in signup:", error);
 
