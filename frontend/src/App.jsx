@@ -1,16 +1,19 @@
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import Signup from "./pages/signup/Signup.jsx";
+import Login from "./pages/login/Login.jsx";
+import './index.css';
 
 function App() {
 
   return (
-    <>
-      <button className="btn">Button</button>
-      <button className="btn btn-neutral">Neutral</button>
-      <button className="btn btn-primary">Primary</button>
-      <button className="btn btn-secondary">Secondary</button>
-      <button className="btn btn-accent">Accent</button>
-      <button className="btn btn-ghost">Ghost</button>
-      <button className="btn btn-link text-">Link</button>
-    </>
+    <div className="p-4 h-screen flex items-center justify-center">
+      <BrowserRouter>
+        <Routes>
+          <Route path="/signup" element={<Signup />} />
+          <Route path="/login" element={<Login />} />
+        </Routes>
+      </BrowserRouter>
+    </div>
   )
 }
 
