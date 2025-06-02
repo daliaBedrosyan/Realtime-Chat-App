@@ -8,16 +8,16 @@ import './index.css';
 function App() {
   return (
     <div className="h-screen flex flex-col">
-      <Navbar />
-      <div className="flex-1 flex items-center justify-center p-4">
-        <BrowserRouter>
+      <BrowserRouter>
+        <Navbar />
+        <div className="flex-1 flex items-center justify-center p-4">
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/signup" element={<Signup />} />
             <Route path="/login" element={<Login />} />
           </Routes>
-        </BrowserRouter>
-      </div>
+        </div>
+      </BrowserRouter >
     </div>
   );
 }
