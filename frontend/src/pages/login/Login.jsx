@@ -18,7 +18,7 @@ const Login = () => {
                         <label htmlFor="" className='label'>
                             <span className='text-base label-text'>Password</span>
                         </label>
-                        <input type="text" placeholder='Enter password' className='w-full input input-bordered h-10' />
+                        <input type="password" placeholder='Enter password' className='w-full input input-bordered h-10' />
                     </div>
                     <Link to="/signup" className='text-sm hover:underline text-blue-300 hover:text-blue-400 mt-2 inline-block'>{"Don't"} have an accont?</Link>
                     <div>
